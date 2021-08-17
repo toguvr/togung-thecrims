@@ -1,4 +1,4 @@
-const botGang = async (requestx, night_id, stamina_to_rob) => {
+const botGangSolo = async (requestx, night_id, stamina_to_rob) => {
   stamina_to_rob ? stamina_to_rob : (stamina_to_rob = 25);
 
   //aceita
@@ -93,7 +93,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
       }
 
       if (Number(exec.user.stamina) >= Number(stamina_to_rob)) {
-        return botGang(requestx, night_id, stamina_to_rob);
+        return botGangSolo(requestx, night_id, stamina_to_rob);
       } else {
         fetch("https://www.thecrims.com/api/v1/nightclub", {
           headers: {
@@ -128,7 +128,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                 "You must wait 5 seconds before you can enter the same nightclub again"
             ) {
               return setTimeout(function () {
-                botGang(requestx, night_id, stamina_to_rob);
+                botGangSolo(requestx, night_id, stamina_to_rob);
               }, 2000);
             }
             if (
@@ -137,7 +137,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                 "You have to wait 1 second before you can enter"
             ) {
               return setTimeout(function () {
-                botGang(requestx, night_id, stamina_to_rob);
+                botGangSolo(requestx, night_id, stamina_to_rob);
               }, 1000);
             }
 
@@ -204,7 +204,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                   response.json().then((data) => {
                     console.log("saiu da night", data);
                     return setTimeout(function () {
-                      botGang(requestx, night_id, stamina_to_rob);
+                      botGangSolo(requestx, night_id, stamina_to_rob);
                     }, 3000);
                   })
                 );
@@ -213,7 +213,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
           });
         });
       }
-    }, 14000);
+    }, 100);
   } else {
     if (
       aceita.messages[0][0] ==
@@ -252,7 +252,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
               "You must wait 5 seconds before you can enter the same nightclub again"
           ) {
             return setTimeout(function () {
-              botGang(requestx, night_id, stamina_to_rob);
+              botGangSolo(requestx, night_id, stamina_to_rob);
             }, 2000);
           }
           if (
@@ -261,7 +261,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
               "You have to wait 1 second before you can enter"
           ) {
             return setTimeout(function () {
-              botGang(requestx, night_id, stamina_to_rob);
+              botGangSolo(requestx, night_id, stamina_to_rob);
             }, 1000);
           }
 
@@ -328,7 +328,7 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                 response.json().then((data) => {
                   console.log("saiu da night", data);
                   return setTimeout(function () {
-                    botGang(requestx, night_id, stamina_to_rob);
+                    botGangSolo(requestx, night_id, stamina_to_rob);
                   }, 3000);
                 })
               );

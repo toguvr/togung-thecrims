@@ -120,8 +120,6 @@ const procurarbriga = async (requestx, respect_to_fight) => {
   }
 
   function procuraVisitante() {
-    console.log("ve visitantes");
-
     const response = fetch(
       "https://www.thecrims.com/api/v1/nightclub/visitors",
       {
@@ -149,8 +147,6 @@ const procurarbriga = async (requestx, respect_to_fight) => {
   }
 
   function atacarOtario(victim_id, encountered_at, assault_key) {
-    console.log("ataca otario");
-
     const response = fetch("https://www.thecrims.com/api/v1/attack", {
       headers: {
         accept: "application/json, text/plain, */*",
@@ -188,7 +184,7 @@ const procurarbriga = async (requestx, respect_to_fight) => {
 
   const nights = await escolheNights();
 
-  if (nights.user.respect < respect_to_fight) {
+  if (nights?.user?.respect < respect_to_fight) {
     console.log("o respeito escolhido e maior que o teu em...");
     return;
   }
@@ -196,7 +192,7 @@ const procurarbriga = async (requestx, respect_to_fight) => {
   const nightId = nights.nightclubs.find((night) => night.business_id == 1);
   const night = await entraNight(nightId.id);
 
-  if (nights.user.stamina < 90) {
+  if (nights?.user?.stamina < 90) {
     if (night.nightclub.products.drugs.length > 0) {
       await useDroga(night.nightclub.products.drugs[0].id);
       await saiNight(nightId.id);
@@ -211,16 +207,22 @@ const procurarbriga = async (requestx, respect_to_fight) => {
     }
   } else {
     const visitantes = await procuraVisitante();
+
     if (Array.isArray(visitantes)) {
       if (visitantes.length === 0) {
+        console.log("night vazia");
+
         await saiNight(nightId.id);
 
         return setTimeout(function () {
           procurarbriga(requestx, respect_to_fight);
         }, 1000);
       } else {
+        visitantes.map((visitante) => {
+          return console.log("tem um cara com respeito:", visitante?.respect);
+        });
         const visitanteParaApanhar = visitantes.find(
-          (visitante) => visitante.respect <= respect_to_fight
+          (visitante) => visitante?.respect <= respect_to_fight
         );
         if (!visitanteParaApanhar) {
           await saiNight(nightId.id);
@@ -232,11 +234,13 @@ const procurarbriga = async (requestx, respect_to_fight) => {
             "OTARIO vai morrer com respeito:",
             visitanteParaApanhar.respect
           );
-          await atacarOtario(
+          const ataca = await atacarOtario(
             visitanteParaApanhar.id,
             visitanteParaApanhar.encountered_at,
             visitanteParaApanhar.assault_key
           );
+          console.log("ataca otario", ataca);
+
           await saiNight(nightId.id);
           return setTimeout(function () {
             procurarbriga(requestx, respect_to_fight);

@@ -1,6 +1,14 @@
-const botGang = async (requestx, night_id, stamina_to_rob) => {
-  stamina_to_rob ? stamina_to_rob : (stamina_to_rob = 25);
+const botGang = async (
+  requestx,
+  night_id,
+  atual_numero_roubos,
+  max_numero_roubos
+) => {
+  const stamina_to_rob = 25;
 
+  if (atual_numero_roubos >= max_numero_roubos) {
+    console.log("Você terminou os ", atual_numero_roubos, " roubos");
+  }
   //aceita
   function aceitarGangRoubo() {
     console.log("aceitou roubo");
@@ -93,7 +101,12 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
       }
 
       if (Number(exec.user.stamina) >= Number(stamina_to_rob)) {
-        return botGang(requestx, night_id, stamina_to_rob);
+        return botGang(
+          requestx,
+          night_id,
+          atual_numero_roubos + 1,
+          max_numero_roubos
+        );
       } else {
         fetch("https://www.thecrims.com/api/v1/nightclub", {
           headers: {
@@ -128,7 +141,12 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                 "You must wait 5 seconds before you can enter the same nightclub again"
             ) {
               return setTimeout(function () {
-                botGang(requestx, night_id, stamina_to_rob);
+                botGang(
+                  requestx,
+                  night_id,
+                  atual_numero_roubos + 1,
+                  max_numero_roubos
+                );
               }, 2000);
             }
             if (
@@ -137,7 +155,12 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                 "You have to wait 1 second before you can enter"
             ) {
               return setTimeout(function () {
-                botGang(requestx, night_id, stamina_to_rob);
+                botGang(
+                  requestx,
+                  night_id,
+                  atual_numero_roubos + 1,
+                  max_numero_roubos
+                );
               }, 1000);
             }
 
@@ -204,7 +227,12 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                   response.json().then((data) => {
                     console.log("saiu da night", data);
                     return setTimeout(function () {
-                      botGang(requestx, night_id, stamina_to_rob);
+                      botGang(
+                        requestx,
+                        night_id,
+                        atual_numero_roubos + 1,
+                        max_numero_roubos
+                      );
                     }, 3000);
                   })
                 );
@@ -252,7 +280,12 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
               "You must wait 5 seconds before you can enter the same nightclub again"
           ) {
             return setTimeout(function () {
-              botGang(requestx, night_id, stamina_to_rob);
+              botGang(
+                requestx,
+                night_id,
+                atual_numero_roubos + 1,
+                max_numero_roubos
+              );
             }, 2000);
           }
           if (
@@ -261,7 +294,12 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
               "You have to wait 1 second before you can enter"
           ) {
             return setTimeout(function () {
-              botGang(requestx, night_id, stamina_to_rob);
+              botGang(
+                requestx,
+                night_id,
+                atual_numero_roubos + 1,
+                max_numero_roubos
+              );
             }, 1000);
           }
 
@@ -328,7 +366,12 @@ const botGang = async (requestx, night_id, stamina_to_rob) => {
                 response.json().then((data) => {
                   console.log("saiu da night", data);
                   return setTimeout(function () {
-                    botGang(requestx, night_id, stamina_to_rob);
+                    botGang(
+                      requestx,
+                      night_id,
+                      atual_numero_roubos + 1,
+                      max_numero_roubos
+                    );
                   }, 3000);
                 })
               );
